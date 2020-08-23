@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 from flask import Flask, render_template, request, redirect
 
-from bson import ObjectId
+from bson import ObjectId, SON
 
 import os
+
+from controller.VideoController import VideoController 
 
 import random
 
@@ -31,9 +33,10 @@ def create_app(config_name):
 
     @app.route('/')
     def list_videos():
-      data = todos.find()
+      videos = VideoController()
+      data = videos.list_videos()
 
-      return render_template('videos.html',videos= data)
+      return render_template('feed.html',videos= data)
 
     def allowed_file(filename):
       return '.' in filename and \
@@ -91,5 +94,38 @@ def create_app(config_name):
 
       todos.update_one(id, deslike)
       return redirect('/video?_id='+key)
+
+    @app.route('/trending')
+    def list_trending():
+      cursor = todos.find()
+      curso = todos.find()
+
+      def get_my_key(obj):
+        return obj['score']
+      theme = []
+      data = []
+      for c in cursor:
+        theme.append(c['theme'])
+
+      for c in curso:
+        like = int(c['like'])
+        deslike = int(c['deslike'])
+        data.append({"theme": c['theme'],"scores":like - (deslike / 2)})
+
+      theme = sorted(set(theme))
+
+      score = []
+      for t in theme:
+        scor = 0
+        for d in data:
+          if t == d['theme']:
+            scor = scor + float(d['scores'])
+          
+        score.append({"theme": t, "score": scor})
+
+      score.sort(key=get_my_key)
+      score.reverse()
+      #print(score)
+      return render_template('trending.html',videos=score)
 
     return app

@@ -1,0 +1,25 @@
+{% include "menu.html" %}
+
+{% block body %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+<div class="container">
+  <h4 class="center">Trending</h4>
+  <div class="row">
+    <div class="col s10 push-s1 ">
+    {% for video in videos %}
+      <div class="col s12">
+        <div class="card white">
+          <div class="card-content black-text valign-wrapper">
+            <span class="card-title col s6 center ">{{video.theme}}</span>
+            <h5 class="green-text col s6 center">{{video.score}}</h5>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+  </div>
+
+</div>
+
+{% endblock %}
