@@ -42,19 +42,23 @@ def create_app(config_name):
       return '.' in filename and \
         filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
-    @app.route('/register_video', methods=['POST'])
+    @app.route('/publish_video', methods=['POST'])
     def insert_video():
+      video = VideoController()
+
       name= request.form['name']
       theme= request.form['theme']
       file = request.files['file']
       if file and allowed_file(file.filename):
-        #filename = secure_filename(file.filename)
         filename = str(random.getrandbits(128))+file.filename
         file.save(os.path.join(UPLOAD_FOLDER, filename))
+      
+      status = video.publish_video(name, theme, filename)
 
-      todos.insert({"name": name, "theme": theme, "like": 0, "deslike": 0, "url_video": filename})
+      if status:
+        return redirect('/')
 
-      return redirect('/')
+      return redirect('/publish')
     
     @app.route('/video')
     def view_video():

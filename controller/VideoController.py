@@ -9,4 +9,12 @@ class VideoController():
     try:
       return todos.find()
     except Exception as e:
-      print(3)
+      print(e)
+  
+  def publish_video(self, name, theme, url_video):
+    try:
+      todos.insert({"name": name, "theme": theme, "like": 0, "deslike": 0, "url_video": url_video})
+
+      return True
+    except Exception as e:
+      print(e)
