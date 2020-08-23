@@ -61,14 +61,13 @@ def create_app(config_name):
       return redirect('/publish')
     
     @app.route('/video')
-    def view_video():
+    def apresentation_video():
+      video = VideoController()
       key = request.args.get("_id")
-      video = todos.find_one({"_id": ObjectId(key)})
-      data = todos.find({"_id": { "$ne":  ObjectId(key)}})
+      
+      data = video.apresentation_video(key)
       print(data)
-      #data = todos.find(ne)
-
-      return render_template('video.html',video=video, videos= data)
+      return render_template('video.html',video=data['video'], videos=data['videos'])
 
     @app.route('/publish')
     def publish_videos():
