@@ -36,10 +36,12 @@
         <div class="col s10 push-s1">
         <ul class="collection">
           {% for video in videos %}
+            <a href="./video?_id={{ video._id }}">
             <li class="collection-item">
               <h5>{{video.name}}</h5>
               <strong class="grey-text">{{video.theme}}</strong>
             </li>
+            </a>
           {% endfor %}
         </ul> 
         </div>    
