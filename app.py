@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 from flask import Flask, render_template, request, redirect
 
-from bson import ObjectId, SON
-
 import os
 
 from controller.VideoController import VideoController 
@@ -16,12 +14,6 @@ ALLOWED_EXTENSIONS = set(['mp4'])
 from config import app_config, app_active
 
 config = app_config[app_active]
-
-from pymongo import MongoClient
-
-client = MongoClient("mongodb://127.0.0.1:27017/deepersystemstube") #host uri
-db = client.deepersystemstube                           #Select the database
-todos = db.videos
 
 def create_app(config_name):
     app = Flask(__name__, template_folder='templates')
@@ -94,35 +86,10 @@ def create_app(config_name):
 
     @app.route('/trending')
     def list_trending():
-      cursor = todos.find()
-      curso = todos.find()
+      video = VideoController()
 
-      def get_my_key(obj):
-        return obj['score']
-      theme = []
-      data = []
-      for c in cursor:
-        theme.append(c['theme'])
+      score = video.list_trending()
 
-      for c in curso:
-        like = int(c['like'])
-        deslike = int(c['deslike'])
-        data.append({"theme": c['theme'],"scores":like - (deslike / 2)})
-
-      theme = sorted(set(theme))
-
-      score = []
-      for t in theme:
-        scor = 0
-        for d in data:
-          if t == d['theme']:
-            scor = scor + float(d['scores'])
-          
-        score.append({"theme": t, "score": scor})
-
-      score.sort(key=get_my_key)
-      score.reverse()
-      #print(score)
       return render_template('trending.html',videos=score)
 
     return app

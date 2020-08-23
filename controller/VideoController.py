@@ -54,4 +54,37 @@ class VideoController():
       return True
     except Exception as e:
       print(e)
-    
+  
+  def list_trending(self):
+    theme_list = todos.find()
+    video_list = todos.find()
+
+    def get_my_key(obj):
+      return obj['score']
+      
+    theme = []
+    data = []
+    score = []
+
+    for themes in theme_list:
+      theme.append(themes['theme'])
+
+    for video in video_list:
+      like = int(video['like'])
+      deslike = int(video['deslike'])
+      data.append({"theme": video['theme'],"scores":like - (deslike / 2)})
+
+    theme = sorted(set(theme))
+
+    for t in theme:
+      scores = 0
+      for d in data:
+        if t == d['theme']:
+          scores = scores + float(d['scores'])
+          
+      score.append({"theme": t, "score": scores})
+
+    score.sort(key=get_my_key)
+    score.reverse()
+
+    return score
