@@ -71,31 +71,25 @@ def create_app(config_name):
 
     @app.route('/publish')
     def publish_videos():
-      data = todos.find()
-      print(data)
-
       return render_template('publish_video.html')
 
     @app.route('/like')
     def like_video():
+      video = VideoController()
+
       key = request.args.get("_id")
-      id = {"_id":  ObjectId(key)}
+      
+      video.like(key)
 
-      video = todos.find_one(id)
-      like = { "$set": { "like": video['like'] + 1 } }
-
-      todos.update_one(id, like)
       return redirect('/video?_id='+key)
 
-    @app.route('/deslike')
+    @app.route('/dislike')
     def deslike_video():
+      video = VideoController()
       key = request.args.get("_id")
-      id = {"_id":  ObjectId(key)}
 
-      video = todos.find_one(id)
-      deslike = { "$set": { "deslike": video['deslike'] + 1 } }
-
-      todos.update_one(id, deslike)
+      video.dislike(key)
+      
       return redirect('/video?_id='+key)
 
     @app.route('/trending')

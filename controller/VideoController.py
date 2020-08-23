@@ -28,3 +28,30 @@ class VideoController():
       return {"video": video, "videos": videos}
     except Exception as e:
       print(e)
+
+  def like(self, _id):
+    try:
+      _id = {"_id":  ObjectId(_id)}
+
+      video = todos.find_one(_id)
+      like = { "$set": { "like": video['like'] + 1 } }
+
+      todos.update_one(_id, like)
+
+      return True
+    except Exception as e:
+      print(e)
+  
+  def dislike(self, _id):
+    try:
+      _id = {"_id":  ObjectId(_id)}
+
+      video = todos.find_one(_id)
+      like = { "$set": { "deslike": video['deslike'] + 1 } }
+
+      todos.update_one(_id, like)
+
+      return True
+    except Exception as e:
+      print(e)
+    
