@@ -1,0 +1,28 @@
+{% include "menu.html" %}
+
+{% block body %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+<div class="container">
+  <h4 class="center">Feed</h4>
+  <div class="row">
+    <div class="col s10 push-s1">
+    {% for video in videos %}
+    <div class="col s12">
+      <a href="./video?_id={{video._id}}">
+          <div class="card white">
+            <div class="card-content black-text">
+              <span class="card-title">{{video.name}}</span>
+              <p class="grey-text">{{video.theme}}</p>
+              <p class="blue-text">Like: {{video.like}} Deslike: {{video.deslike}}</p>
+            </div>
+          </div>
+    </div>
+    </a>
+    {% endfor %}
+  </div>
+  </div>
+
+</div>
+
+{% endblock %}

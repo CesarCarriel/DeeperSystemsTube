@@ -1,0 +1,14 @@
+.font-small {
+  font-size: 60px;
+}
+
+.btn-icon {
+  margin-left: 5px;
+}
+
+.aligh-items {
+  margin: 0;
+  padding: 0;
+  align-items: center;
+  color: green;
+}
