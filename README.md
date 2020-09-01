@@ -1,2 +1,4 @@
 # DeeperSystemsTube
-Video trend analysis system
+
+### Challenge of creating a video system for analyzing trends
+##### under development...
